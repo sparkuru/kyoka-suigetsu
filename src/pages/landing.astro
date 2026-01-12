@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import WarningStripe from '../components/WarningStripe.astro';
+import VerticalWarningStripe from '../components/VerticalWarningStripe.astro';
 import NervLogo from '../components/NervLogo.astro';
 import NoticeInfo from '../components/NoticeInfo.astro';
 import SecurityLevel from '../components/SecurityLevel.astro';
@@ -8,7 +9,9 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
 ---
 
 <Layout title="Domain Seized - NERV Special Agency">
-  <WarningStripe />
+  <WarningStripe position="top" />
+  <VerticalWarningStripe position="left" />
+  <VerticalWarningStripe position="right" />
   
   <main class="container">
     <NervLogo />
@@ -65,14 +68,14 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
     </div>
   </main>
 
-  <WarningStripe />
+  <WarningStripe position="bottom" />
 </Layout>
 
 <style>
   .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 2rem 1rem;
+    padding: 3rem 2.5rem 3rem 2.5rem;
   }
 
   .card {
@@ -170,7 +173,7 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
 
   @media (max-width: 768px) {
     .container {
-      padding: 1rem 0.5rem;
+      padding: 2.5rem 1.5rem;
     }
 
     .card {
@@ -287,5 +290,18 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
       document.cookie = 'has_visited=true; path=/; max-age=31536000; SameSite=Strict';
       window.location.href = '/';
     }
+  });
+
+  const horizontalStripes = document.querySelectorAll('.warning-stripe');
+  const verticalStripes = document.querySelectorAll('.vertical-warning-stripe');
+  
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    horizontalStripes.forEach((stripe) => {
+      stripe.style.backgroundPosition = `${scrollY * 0.5}px`;
+    });
+    verticalStripes.forEach((stripe) => {
+      stripe.style.backgroundPosition = `0 ${scrollY * 0.5}px`;
+    });
   });
 </script>

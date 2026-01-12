@@ -1,7 +1,12 @@
 ---
+interface Props {
+  position?: 'top' | 'bottom';
+}
+
+const { position = 'top' } = Astro.props;
 ---
 
-<div class="warning-stripe"></div>
+<div class={`warning-stripe warning-stripe-${position}`}></div>
 
 <style>
   .warning-stripe {
@@ -14,5 +19,16 @@
     );
     height: 20px;
     width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 9998;
+  }
+
+  .warning-stripe-top {
+    top: 0;
+  }
+
+  .warning-stripe-bottom {
+    bottom: 0;
   }
 </style>

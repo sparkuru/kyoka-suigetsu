@@ -1,0 +1,34 @@
+---
+interface Props {
+  position?: 'left' | 'right';
+}
+
+const { position = 'left' } = Astro.props;
+---
+
+<div class={`vertical-warning-stripe vertical-warning-stripe-${position}`}></div>
+
+<style>
+  .vertical-warning-stripe {
+    background: repeating-linear-gradient(
+      45deg,
+      #000000,
+      #000000 25px,
+      #ff0000 25px,
+      #ff0000 50px
+    );
+    width: 20px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 9998;
+  }
+
+  .vertical-warning-stripe-left {
+    left: 0;
+  }
+
+  .vertical-warning-stripe-right {
+    right: 0;
+  }
+</style>
