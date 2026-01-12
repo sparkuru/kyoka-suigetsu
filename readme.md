@@ -2,6 +2,8 @@
 
 <p align = "center" style="font-size: 30px;" > 「鏡花水月を見た者は、完全催眠に陥る」 </p>
 
+![screenshot](https://raw.githubusercontent.com/sparkuru/kyoka-suigetsu/refs/heads/main/public/screenshot.png)
+
 ## usage
 
 ```bash
@@ -23,7 +25,7 @@ This is a **fan-made parody project** inspired by the anime
   official Evangelion rights holders
 - All trademarks and copyrights belong to their respective owners
 - If you are a rights holder and wish this project to be removed, 
-  please contact: [your email]
+  please contact me via issue or email.
 
 ## Fair Use Statement
 
