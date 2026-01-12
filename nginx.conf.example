@@ -9,33 +9,27 @@ server {
     root /var/www/dist;
     index index.html;
 
+    location = /landing.html {
+        try_files /landing.html =404;
+        add_header Set-Cookie "has_visited=true; Path=/; Max-Age=31536000; HttpOnly; SameSite=Strict";
+    }
+
+    location ^~ /_astro/ {
+        expires 2h;
+        add_header Cache-Control "public, immutable";
+    }
+
     location = / {
-        # Skip landing page for search engine crawlers
         if ($http_user_agent ~* "Googlebot|bingbot|Baiduspider|Yandex|DuckDuckBot") {
             rewrite ^ /index.html last;
         }
 
-        # First visit: set cookie and show NERV landing page
         if ($landing_redirect = 1) {
-            add_header Set-Cookie "has_visited=true; Path=/; Max-Age=31536000; HttpOnly; SameSite=Strict";
             rewrite ^ /landing.html last;
         }
 
-        # Already visited: show main homepage
         try_files /index.html =404;
     }
 
-    # Static assets caching
-    location ~* \.(css|js|svg|png|jpg|jpeg|gif|ico|woff|woff2|ttf|eot)$ {
-        expires 1y;
-        add_header Cache-Control "public, immutable";
-    }
-
-    # Prevent direct access to landing page
-    location = /landing.html {
-        internal;
-    }
-
-    # Handle 404 errors
     error_page 404 /index.html;
 }
