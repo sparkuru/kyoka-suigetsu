@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import WarningStripe from '../components/WarningStripe.astro';
-import VerticalWarningStripe from '../components/VerticalWarningStripe.astro';
 import NervLogo from '../components/NervLogo.astro';
 import NoticeInfo from '../components/NoticeInfo.astro';
 import SecurityLevel from '../components/SecurityLevel.astro';
@@ -10,8 +9,6 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
 
 <Layout title="Domain Seized - NERV Special Agency">
   <WarningStripe position="top" />
-  <VerticalWarningStripe position="left" />
-  <VerticalWarningStripe position="right" />
   
   <main class="container">
     <NervLogo />
@@ -64,6 +61,10 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
           詳細については、NERV本部またはMAGIシステム管理部門にお問い合わせください。<br />
           For more information, please contact NERV Headquarters or MAGI System Administration.
         </p>
+
+        <p class="disclaimer-text">
+          ※ 本ページは非公式同人創作です / This is an unofficial fan-made page / 与 GAINAX/khara 無関連
+        </p>
       </div>
     </div>
   </main>
@@ -75,7 +76,7 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
   .container {
     max-width: 900px;
     margin: 0 auto;
-    padding: 3rem 2.5rem 3rem 2.5rem;
+    padding: 1.5rem 1rem 3rem 1rem;
   }
 
   .card {
@@ -194,9 +195,17 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
     border-top: 1px solid #666;
   }
 
+  .disclaimer-text {
+    text-align: center;
+    font-size: 0.7rem;
+    color: #444;
+    opacity: 0.5;
+    margin-top: 1rem;
+  }
+
   @media (max-width: 768px) {
     .container {
-      padding: 2.5rem 1.5rem;
+      padding: 1.5rem 0.5rem 2.5rem 0.5rem;
     }
 
     .card {
@@ -278,16 +287,12 @@ import ClassifiedBox from '../components/ClassifiedBox.astro';
     }
   });
 
-  const horizontalStripes = document.querySelectorAll('.warning-stripe');
-  const verticalStripes = document.querySelectorAll('.vertical-warning-stripe');
+  const stripes = document.querySelectorAll<HTMLElement>('.warning-stripe');
   
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
-    horizontalStripes.forEach((stripe) => {
-      stripe.style.backgroundPosition = `${scrollY * 0.5}px`;
-    });
-    verticalStripes.forEach((stripe) => {
-      stripe.style.backgroundPosition = `0 ${scrollY * 0.5}px`;
+    stripes.forEach((stripe) => {
+      stripe.style.setProperty('--bg-position', `${scrollY * 0.5}px`);
     });
   });
 </script>
