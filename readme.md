@@ -4,6 +4,8 @@
 
 ![screenshot](https://raw.githubusercontent.com/sparkuru/kyoka-suigetsu/refs/heads/main/public/screenshot.webp)
 
+with ui-ux-pro-max-skill
+
 ## usage
 
 ```bash

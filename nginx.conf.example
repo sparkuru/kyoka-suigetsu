@@ -11,7 +11,7 @@ server {
 
     location = /landing.html {
         try_files /landing.html =404;
-        add_header Set-Cookie "has_visited=true; Path=/; Max-Age=31536000; HttpOnly; SameSite=Strict";
+        add_header Set-Cookie "has_visited=true; Path=/; Max-Age=7200; HttpOnly; SameSite=Strict";
     }
 
     location ^~ /_astro/ {

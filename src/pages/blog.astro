@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="DOS Blog Terminal">
+  <div id="terminal-container"></div>
+</Layout>
+
+<style>
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #000000;
+    font-family: 'Courier New', 'MS-DOS', monospace;
+    position: relative;
+  }
+
+  :global(body::before) {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 255, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 10000;
+  }
+
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(100vh);
+    }
+  }
+
+  #terminal-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #000000;
+  }
+
+  :global(.xterm) {
+    font-family: 'Courier New', 'MS-DOS', monospace;
+  }
+
+  :global(.xterm-screen) {
+    background-color: #000000 !important;
+  }
+
+  :global(.xterm-viewport) {
+    background-color: #000000 !important;
+    scrollbar-width: thin;
+    scrollbar-color: #00FF00 #000000;
+  }
+
+  :global(.xterm-viewport::-webkit-scrollbar) {
+    width: 8px;
+  }
+
+  :global(.xterm-viewport::-webkit-scrollbar-track) {
+    background: #000000;
+  }
+
+  :global(.xterm-viewport::-webkit-scrollbar-thumb) {
+    background: #00FF00;
+    border-radius: 4px;
+  }
+
+  :global(.xterm-viewport::-webkit-scrollbar-thumb:hover) {
+    background: #80FF80;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(body::before) {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { DOSBlogTerminal } from '../components/DOSBlogTerminal';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('terminal-container');
+    if (container) {
+      new DOSBlogTerminal(container);
+    }
+  });
+</script>
