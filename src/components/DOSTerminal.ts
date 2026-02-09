@@ -2,7 +2,7 @@ import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';
 
-export interface BlogPost {
+export interface DOSPost {
   id: string;
   title: string;
   date: string;
@@ -10,22 +10,22 @@ export interface BlogPost {
   tags: string[];
 }
 
-export const blogPosts: BlogPost[] = [
+export const dosPosts: DOSPost[] = [
   {
     id: '1',
-    title: 'Welcome to DOS Blog',
+    title: 'Welcome to DOS Terminal',
     date: '2026-02-09',
-    content: `Welcome to my DOS-style blog terminal!
+    content: `Welcome to my DOS-style terminal space!
 
-This is a retro-inspired blog interface built with xterm.js.
+This is a retro-inspired interface built with xterm.js.
 You can navigate using classic DOS commands.
 
 Available commands:
 - HELP    - Show available commands
-- LIST    - List all blog posts
-- READ <id> - Read a specific post
+- LIST    - List all entries
+- READ <id> - Read a specific entry
 - CLEAR   - Clear the terminal
-- ABOUT   - About this blog
+- ABOUT   - About this terminal
 - EXIT    - Exit (just refresh the page)
 
 Enjoy your stay in the terminal!`,
@@ -33,12 +33,12 @@ Enjoy your stay in the terminal!`,
   },
   {
     id: '2',
-    title: 'Building a Terminal Blog',
+    title: 'Building a DOS Terminal',
     date: '2026-02-09',
     content: `I've always been fascinated by retro computing and terminal interfaces.
 There's something beautiful about the simplicity and directness of command-line interfaces.
 
-This blog is built using:
+This experience is built using:
 - xterm.js for the terminal emulator
 - TypeScript for type safety
 - Astro for the framework
@@ -62,7 +62,7 @@ This philosophy extends beyond code to life itself.`,
   }
 ];
 
-export class DOSBlogTerminal {
+export class DOSTerminal {
   private terminal: Terminal;
   private fitAddon: FitAddon;
   private currentLine: string = '';
@@ -103,7 +103,7 @@ export class DOSBlogTerminal {
     this.terminal.loadAddon(this.fitAddon);
     this.terminal.open(container);
     this.fitAddon.fit();
-    
+
     window.addEventListener('resize', () => {
       this.fitAddon.fit();
     });
@@ -120,7 +120,7 @@ export class DOSBlogTerminal {
   private printWelcome() {
     this.terminal.writeln('\x1b[32m╔═══════════════════════════════════════════════════════════╗\x1b[0m');
     this.terminal.writeln('\x1b[32m║                                                           ║\x1b[0m');
-    this.terminal.writeln('\x1b[32m║              DOS BLOG TERMINAL v1.0                      ║\x1b[0m');
+    this.terminal.writeln('\x1b[32m║                DOS TERMINAL INTERFACE v1.0                ║\x1b[0m');
     this.terminal.writeln('\x1b[32m║                                                           ║\x1b[0m');
     this.terminal.writeln('\x1b[32m╚═══════════════════════════════════════════════════════════╝\x1b[0m');
     this.terminal.writeln('');
@@ -129,7 +129,7 @@ export class DOSBlogTerminal {
   }
 
   private printPrompt() {
-    this.terminal.write('\x1b[32mC:\\BLOG>\x1b[0m ');
+    this.terminal.write('\x1b[32mC:\\DOS>\x1b[0m ');
   }
 
   private setupInput() {
@@ -157,13 +157,13 @@ export class DOSBlogTerminal {
   private handleEnter() {
     this.terminal.writeln('');
     const command = this.currentLine.trim().toUpperCase();
-    
+
     if (command) {
       this.commandHistory.push(this.currentLine.trim());
       this.historyIndex = this.commandHistory.length;
       this.executeCommand(command);
     }
-    
+
     this.currentLine = '';
     this.printPrompt();
   }
@@ -216,13 +216,13 @@ export class DOSBlogTerminal {
         break;
       case 'LIST':
       case 'DIR':
-        this.listPosts();
+        this.listEntries();
         break;
       case 'READ':
         if (args.length > 0) {
-          this.readPost(args[0]);
+          this.readEntry(args[0]);
         } else {
-          this.terminal.writeln('\x1b[31mError: Please specify a post ID.\x1b[0m');
+          this.terminal.writeln('\x1b[31mError: Please specify an entry ID.\x1b[0m');
           this.terminal.writeln('Usage: READ <id>');
         }
         break;
@@ -252,61 +252,61 @@ export class DOSBlogTerminal {
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
     this.terminal.writeln('');
     this.terminal.writeln('  \x1b[32mHELP\x1b[0m     - Display this help message');
-    this.terminal.writeln('  \x1b[32mLIST\x1b[0m     - List all blog posts');
-    this.terminal.writeln('  \x1b[32mREAD <id>\x1b[0m - Read a specific blog post');
+    this.terminal.writeln('  \x1b[32mLIST\x1b[0m     - List all entries');
+    this.terminal.writeln('  \x1b[32mREAD <id>\x1b[0m - Read a specific entry');
     this.terminal.writeln('  \x1b[32mCLEAR\x1b[0m    - Clear the terminal screen');
-    this.terminal.writeln('  \x1b[32mABOUT\x1b[0m    - Show information about this blog');
+    this.terminal.writeln('  \x1b[32mABOUT\x1b[0m    - Show information about this terminal');
     this.terminal.writeln('  \x1b[32mEXIT\x1b[0m     - Exit (refresh page)');
     this.terminal.writeln('');
   }
 
-  private listPosts() {
+  private listEntries() {
     this.terminal.writeln('');
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
-    this.terminal.writeln('\x1b[33m                      BLOG POSTS\x1b[0m');
+    this.terminal.writeln('\x1b[33m                        ENTRIES\x1b[0m');
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
     this.terminal.writeln('');
-    
-    blogPosts.forEach((post) => {
-      const id = `\x1b[32m[${post.id}]\x1b[0m`;
-      const title = `\x1b[36m${post.title}\x1b[0m`;
-      const date = `\x1b[33m${post.date}\x1b[0m`;
-      const tags = post.tags.map(t => `\x1b[35m#${t}\x1b[0m`).join(' ');
-      
+
+    dosPosts.forEach((entry) => {
+      const id = `\x1b[32m[${entry.id}]\x1b[0m`;
+      const title = `\x1b[36m${entry.title}\x1b[0m`;
+      const date = `\x1b[33m${entry.date}\x1b[0m`;
+      const tags = entry.tags.map(t => `\x1b[35m#${t}\x1b[0m`).join(' ');
+
       this.terminal.writeln(`  ${id} ${title}`);
       this.terminal.writeln(`      Date: ${date}  Tags: ${tags}`);
       this.terminal.writeln('');
     });
-    
-    this.terminal.writeln(`Total: ${blogPosts.length} post(s)`);
+
+    this.terminal.writeln(`Total: ${dosPosts.length} entr(y/ies)`);
     this.terminal.writeln('');
   }
 
-  private readPost(id: string) {
-    const post = blogPosts.find(p => p.id === id);
-    
-    if (!post) {
-      this.terminal.writeln(`\x1b[31mPost not found: ${id}\x1b[0m`);
-      this.terminal.writeln('Use LIST to see available posts.');
+  private readEntry(id: string) {
+    const entry = dosPosts.find(p => p.id === id);
+
+    if (!entry) {
+      this.terminal.writeln(`\x1b[31mEntry not found: ${id}\x1b[0m`);
+      this.terminal.writeln('Use LIST to see available entries.');
       return;
     }
 
     this.terminal.writeln('');
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
-    this.terminal.writeln(`\x1b[36m${post.title}\x1b[0m`);
+    this.terminal.writeln(`\x1b[36m${entry.title}\x1b[0m`);
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
     this.terminal.writeln('');
-    this.terminal.writeln(`\x1b[33mDate:\x1b[0m ${post.date}`);
-    this.terminal.writeln(`\x1b[33mTags:\x1b[0m ${post.tags.map(t => `#${t}`).join(' ')}`);
+    this.terminal.writeln(`\x1b[33mDate:\x1b[0m ${entry.date}`);
+    this.terminal.writeln(`\x1b[33mTags:\x1b[0m ${entry.tags.map(t => `#${t}`).join(' ')}`);
     this.terminal.writeln('');
     this.terminal.writeln('\x1b[33m───────────────────────────────────────────────────────────\x1b[0m');
     this.terminal.writeln('');
-    
-    const lines = post.content.split('\n');
+
+    const lines = entry.content.split('\n');
     lines.forEach(line => {
       this.terminal.writeln(`  ${line}`);
     });
-    
+
     this.terminal.writeln('');
     this.terminal.writeln('\x1b[33m───────────────────────────────────────────────────────────\x1b[0m');
     this.terminal.writeln('');
@@ -323,7 +323,7 @@ export class DOSBlogTerminal {
     this.terminal.writeln('\x1b[33m                         ABOUT\x1b[0m');
     this.terminal.writeln('\x1b[33m═══════════════════════════════════════════════════════════\x1b[0m');
     this.terminal.writeln('');
-    this.terminal.writeln('  A retro-inspired blog interface built with:');
+    this.terminal.writeln('  A retro-inspired DOS terminal experience built with:');
     this.terminal.writeln('  - xterm.js terminal emulator');
     this.terminal.writeln('  - TypeScript');
     this.terminal.writeln('  - Astro framework');
@@ -335,3 +335,4 @@ export class DOSBlogTerminal {
     this.terminal.writeln('');
   }
 }
+

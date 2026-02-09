@@ -1,8 +1,8 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="DOS Blog Terminal">
+<Layout title="DOS Terminal">
   <div id="terminal-container"></div>
 </Layout>
 
@@ -87,12 +87,13 @@ import Layout from '../layouts/Layout.astro';
 </style>
 
 <script>
-  import { DOSBlogTerminal } from '../components/DOSBlogTerminal';
+  import { DOSTerminal } from '../../components/DOSTerminal';
 
   document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('terminal-container');
     if (container) {
-      new DOSBlogTerminal(container);
+      new DOSTerminal(container);
     }
   });
 </script>
+

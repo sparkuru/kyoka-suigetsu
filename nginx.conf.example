@@ -1,4 +1,4 @@
-map $cookie_has_visited $landing_redirect {
+map $cookie_has_visited $nerv_redirect {
     default 1;
     "true"  0;
 }
@@ -9,9 +9,13 @@ server {
     root /var/www/dist;
     index index.html;
 
-    location = /landing.html {
-        try_files /landing.html =404;
+    location = /nerv.html {
+        try_files /nerv.html =404;
         add_header Set-Cookie "has_visited=true; Path=/; Max-Age=7200; HttpOnly; SameSite=Strict";
+    }
+
+    location = /dos.html {
+        try_files /dos.html =404;
     }
 
     location ^~ /_astro/ {
@@ -24,12 +28,12 @@ server {
             rewrite ^ /index.html last;
         }
 
-        if ($landing_redirect = 1) {
-            rewrite ^ /landing.html last;
+        if ($nerv_redirect = 1) {
+            rewrite ^ /nerv.html last;
         }
 
         try_files /index.html =404;
     }
 
-    error_page 404 /index.html;
+    error_page 404 /404.html;
 }
