@@ -19,7 +19,8 @@ import NervPage from '../modules/nerv/NervPage.astro';
     clickCount++;
     if (clickCount >= 3) {
       document.cookie = 'has_visited=true; path=/; max-age=31536000; SameSite=Strict';
-      window.location.href = '/';
+      const params = new URLSearchParams(window.location.search);
+      window.location.href = params.get('from') || '/';
     }
   });
 
